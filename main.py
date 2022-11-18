@@ -15,7 +15,15 @@ if __name__ == '__main__':
     dat2 = dat2.groupby("Fly Date").sum()
 
     #print(dat2.head(20))
+
+    # Comment out the line below, and instead of min_periods here, try
+    # center=True. Keep the rest the same and see what that looks like.
     dat2_12m_roll = dat2["Passengers"].rolling(window=12, min_periods=0).mean()
+
+    # So, that's rolling, let's try resampling too. Let me know if you need help
+    # with the syntax.
+
+    
     print(dat2_12m_roll.head(20))
 
     fig, ax = plt.subplots(figsize=(12, 5))
@@ -26,5 +34,22 @@ if __name__ == '__main__':
     ax.set_xlabel('Month')
     ax.set_ylabel('Passengers')
     plt.show()
+
+    # ^^^ That plot showed an upward trend over all years, right? A time series
+    # with a trend is non-stationary, one without (or removed) is stationary.
+    # We might want to look into de-trending the full line so that we can assess
+    # any monthly variations. How do we remove a trend from a time series...
+    # Differencing. It's pretty simple, essentially we are going to do this:
+    # PAM: Passengers At Month
+    # PAM_x = original_PAM_x - original_PAM_x-1
+    #
+    # Take dat2 and create another df with the differences. This is called
+    # first-order differencing, so you may want to call it something like that.
+    # Try to graph your first-order differences. Because we are looking at
+    # differences, you should expect your plotted line to go above and below the
+    # x-axis.
+    #
+    # Let me know if you have any questions or need any help!
+
 
 
