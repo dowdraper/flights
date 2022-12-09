@@ -13,26 +13,50 @@ if __name__ == '__main__':
     dat2.set_index("Fly Date", inplace=True)
     dat2 = dat2.sort_index()
     dat2 = dat2.groupby("Fly Date").sum()
+    dat2['Average'] = dat2['Passengers'] / dat2['Flights']
 
-    #print(dat2.head(20))
+    # print(dat2.head(20))
+
+    dat2test = dat2[['Passengers']].resample('Y').mean()
+
+    # print(dat2test.head(20))
 
     # Comment out the line below, and instead of min_periods here, try
     # center=True. Keep the rest the same and see what that looks like.
     dat2_12m_roll = dat2["Passengers"].rolling(window=12, min_periods=0).mean()
-
+    # print(dat2_12m_roll.head(20))
+    dat2_12m_roll2 = dat2["Passengers"].rolling(window=12, center=True).mean()
     # So, that's rolling, let's try resampling too. Let me know if you need help
     # with the syntax.
 
-    
-    print(dat2_12m_roll.head(20))
+    dat2_diff = dat2['Passengers'].diff()
+    pre = dat2_diff[dat2_diff.index < pd.Timestamp(year=2001, month=9, day=1)]
+    post = dat2_diff[dat2_diff.index >= pd.Timestamp(year=2001, month=9, day=1)]
+    differenceMeanPre = pre.groupby(pre.index.month).mean()
+    differenceMeanPost = post.groupby(post.index.month).mean()
+    #print(differenceMean.head(20))
+    # print(dat2_12m_roll2.head(20))
 
-    fig, ax = plt.subplots(figsize=(12, 5))
-    ax.plot(dat2['Passengers'], marker='.', markersize=2, color='b', linestyle='None', label='Monthly')
-    ax.plot(dat2_12m_roll, label='Rolling Mean', linewidth=2)
+    # fig, ax = plt.subplots(figsize=(12, 5))
+    # ax.plot(dat2['Passengers'], marker='.', markersize=2, color='b', linestyle='None', label='Monthly')
+    # ax.plot(dat2_12m_roll, label='Rolling Mean', linewidth=2)
 
-    ax.legend()
-    ax.set_xlabel('Month')
-    ax.set_ylabel('Passengers')
+    print(differenceMeanPre, "\n", differenceMeanPost)
+    plt.axhline(linestyle='--', color='k')
+    plt.plot(differenceMeanPre, label='Differencing Mean pre-9/11', linewidth=2, color='b')
+    plt.plot(differenceMeanPost, label='Differencing Mean post-9/11', linewidth=2, color='r')
+
+    # ax.plot(dat2_diff, label='Differencing', linewidth=2, color='r')
+    # ax.plot(dat2_12m_roll2, label='Rolling Mean (Centered)', linewidth=2, color='r')
+    # ax.plot(dat2test['Passengers'], label='Resampled Mean', linewidth=2, color='g')
+
+    # ax.legend()
+    # ax.set_xlabel('Month')
+    # ax.set_ylabel('Passengers')
+
+    plt.xlabel("Month")
+    plt.ylabel("Passengers")
+    plt.legend()
     plt.show()
 
     # ^^^ That plot showed an upward trend over all years, right? A time series
@@ -51,5 +75,6 @@ if __name__ == '__main__':
     #
     # Let me know if you have any questions or need any help!
 
+    # dat2["PAM"] = dat2["Passengers"] -
 
 
