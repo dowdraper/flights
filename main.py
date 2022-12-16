@@ -1,11 +1,23 @@
+#! /usr/bin/env python3
 
+# Created: 12/15/22
+# Author : Brett Warren
+# Project: flights
+# File   : main.py
+
+"""
+Description:
+This is Dow's project. He should fill this in, I'm just getting him started.
+"""
 import pandas as pd
 from matplotlib import pyplot as plt
 
-if __name__ == '__main__':
+
+def main():
     hd = ["Origin", "Destination", "Origin City", "Destination City", "Passengers", "Seats", "Flights", "Distance",
           "Fly Date", "Origin Population", "Destination Population"]
-    dat = pd.read_csv(r"C:\Users\Dow\Downloads\chimps_16091-2010-08-03_17-08-31\flight_edges.tsv", sep="\t", names=hd)
+    # dat = pd.read_csv(r"C:\Users\Dow\Downloads\chimps_16091-2010-08-03_17-08-31\flight_edges.tsv", sep="\t", names=hd)
+    dat = pd.read_csv(r"flight_edges.tsv", sep="\t", names=hd)
 
     dat2 = dat[dat["Destination"] == "MFR"]
     dat2 = dat2[['Fly Date', 'Passengers', 'Flights']]
@@ -34,7 +46,7 @@ if __name__ == '__main__':
     post = dat2_diff[dat2_diff.index >= pd.Timestamp(year=2001, month=9, day=1)]
     differenceMeanPre = pre.groupby(pre.index.month).mean()
     differenceMeanPost = post.groupby(post.index.month).mean()
-    #print(differenceMean.head(20))
+    # print(differenceMean.head(20))
     # print(dat2_12m_roll2.head(20))
 
     # fig, ax = plt.subplots(figsize=(12, 5))
@@ -78,3 +90,5 @@ if __name__ == '__main__':
     # dat2["PAM"] = dat2["Passengers"] -
 
 
+if __name__ == '__main__':
+    main()
