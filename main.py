@@ -1,5 +1,6 @@
 
 import pandas as pd
+import seaborn as sns
 from matplotlib import pyplot as plt
 
 if __name__ == '__main__':
@@ -30,23 +31,34 @@ if __name__ == '__main__':
     # with the syntax.
 
     dat2_diff = dat2['Passengers'].diff()
-    pre = dat2_diff[dat2_diff.index < pd.Timestamp(year=2001, month=9, day=1)]
-    post = dat2_diff[dat2_diff.index >= pd.Timestamp(year=2001, month=9, day=1)]
-    differenceMeanPre = pre.groupby(pre.index.month).mean()
-    differenceMeanPost = post.groupby(post.index.month).mean()
-    #print(differenceMean.head(20))
+    # pre = dat2_diff[dat2_diff.index < pd.Timestamp(year=2001, month=9, day=1)]
+    # post = dat2_diff[dat2_diff.index >= pd.Timestamp(year=2001, month=9, day=1)]
+    # differenceMeanPre = pre.groupby(pre.index.month).mean()
+    # differenceMeanPost = post.groupby(post.index.month).mean()
+    # print(differenceMean.head(20))
     # print(dat2_12m_roll2.head(20))
+
+    # pd.plotting.autocorrelation_plot(dat2)
+    dat2["Year"] = dat2.index.year
+    print(dat2["Year"])
+    sns.set_style('whitegrid')
+    sns.boxplot(data=dat2, x='Year', y='Passengers')
+    plt.show()
+
 
     # fig, ax = plt.subplots(figsize=(12, 5))
     # ax.plot(dat2['Passengers'], marker='.', markersize=2, color='b', linestyle='None', label='Monthly')
     # ax.plot(dat2_12m_roll, label='Rolling Mean', linewidth=2)
 
-    print(differenceMeanPre, "\n", differenceMeanPost)
-    plt.axhline(linestyle='--', color='k')
-    plt.plot(differenceMeanPre, label='Differencing Mean pre-9/11', linewidth=2, color='b')
-    plt.plot(differenceMeanPost, label='Differencing Mean post-9/11', linewidth=2, color='r')
+    # print(differenceMeanPre, "\n", differenceMeanPost)
+    # plt.axhline(linestyle='--', color='k')
+    # plt.plot(differenceMeanPre, label='Differencing Mean pre-9/11', linewidth=2, color='b')
+    # plt.plot(differenceMeanPost, label='Differencing Mean post-9/11', linewidth=2, color='r')
 
     # ax.plot(dat2_diff, label='Differencing', linewidth=2, color='r')
+    # plt.grid(axis='x')
+    # plt.xticks(dat2.groupby(dat2.index.year))
+
     # ax.plot(dat2_12m_roll2, label='Rolling Mean (Centered)', linewidth=2, color='r')
     # ax.plot(dat2test['Passengers'], label='Resampled Mean', linewidth=2, color='g')
 
@@ -54,10 +66,10 @@ if __name__ == '__main__':
     # ax.set_xlabel('Month')
     # ax.set_ylabel('Passengers')
 
-    plt.xlabel("Month")
-    plt.ylabel("Passengers")
-    plt.legend()
-    plt.show()
+    # plt.xlabel("Month")
+    # plt.ylabel("Passengers")
+    # plt.legend()
+    # plt.show()
 
     # ^^^ That plot showed an upward trend over all years, right? A time series
     # with a trend is non-stationary, one without (or removed) is stationary.
