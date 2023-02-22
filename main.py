@@ -15,7 +15,7 @@ from matplotlib import pyplot as plt
 
 def main():
     import sklearn.metrics
-    print("Here")
+
 #     hd = ["Origin", "Destination", "Origin City", "Destination City", "Passengers", "Seats", "Flights", "Distance",
 #           "Fly Date", "Origin Population", "Destination Population"]
 #     # dat = pd.read_csv(r"C:\Users\Dow\Downloads\chimps_16091-2010-08-03_17-08-31\flight_edges.tsv", sep="\t", names=hd)
